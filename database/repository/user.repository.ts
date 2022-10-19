@@ -3,11 +3,8 @@ import userModel from '../models/user.model'
 import {IUser} from '../types/user.type'
 
 
-
-const userRepository = {
-    createUser  : async ({name,email,password,salt} : DocumentDefinition<IUser> ) =>{
+export const     createUser  = async ({name,email,password,salt} : DocumentDefinition<IUser> ) =>{
         try {
-
             const user = new userModel({
                 name,
                 email,
@@ -23,16 +20,18 @@ const userRepository = {
         } catch (error) {
             return error
         }
-    },
-    findUser : async ({email} : DocumentDefinition<IUser>)=>{
+    }
+
+ export const  findUser =async ({email} : DocumentDefinition<IUser>)=>{
         try {
             const existingUser = await userModel.findOne({email : email})
             return existingUser
         } catch (error) {
             
         }
-    },
-    findUserById : async ({id} : DocumentDefinition<IUser>) =>{
+    }
+
+export const  findUserById = async ({id} : DocumentDefinition<IUser>) =>{
         try {
             const existingUser = await userModel.findById(id)
             .populate('name')
@@ -44,7 +43,4 @@ const userRepository = {
             
         }
     }
-}
 
-
-module.exports = userRepository
