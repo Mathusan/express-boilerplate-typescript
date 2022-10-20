@@ -1,5 +1,5 @@
-const {findUser,createUser}= require('../../database/repository/user.repository')
-const { FormateData, GeneratePassword, GenerateSalt, GenerateSignature, ValidatePassword } = require('../utils/index');
+const {findUser,createUser, findUserById}= require('../../database/repository/user.repository')
+const { FormateData, generatePassword, generateToken, validatePassword } = require('../utils/index');
 
 export const signUp = async (userInputs: any) => {
     const { name,email, password} = userInputs
@@ -9,23 +9,22 @@ export const signUp = async (userInputs: any) => {
 
         if(!checkExistingUser){ 
 
-            let salt = await GenerateSalt()
 
-            let hashedPassword = await GeneratePassword(password,salt)
+            let hashedPassword = await generatePassword(password)
 
-            const newUser = await createUser({name,email,password:hashedPassword,salt})
+            const newUser = await createUser({name,email,password:hashedPassword})
 
-            const token = await GenerateSignature({email: newUser.email, _id: newUser._id})
+            const token = await generateToken({email: newUser.email, _id: newUser._id})
 
-            return FormateData({id:newUser._id, token})
+            return {id:newUser._id, token}
 
         } else {
 
-            return FormateData({err : "Email already registered"})
+            return {err : "Email already registered"}
         }
         
     } catch (error) {
-        return FormateData({error : error})
+        return {error : error}
     }
 }
 
@@ -37,21 +36,31 @@ export const logIn = async (userInputs : any) =>{
                 const existingUser = await findUser({email})
     
                 if (existingUser) {
-                    const  validatePassword = await ValidatePassword(password, existingUser.password,existingUser.salt)
+                    const  validatedPassword = await validatePassword(password, existingUser.password)
     
-                    if(validatePassword){
-                         const token = await GenerateSignature({email : existingUser.email, _id:existingUser._id})   
-                         return FormateData({id: existingUser._id,  token})
+                    if(validatedPassword){
+                         const token = await generateToken({email : existingUser.email, _id:existingUser._id})   
+                         return {id: existingUser._id,  token}
                     }else {
-                        return FormateData({err: "Incorrect Password"})
+                        return {err: "Incorrect Password"}
                     }
     
     
     
                 }else {
-                    return FormateData({err: " User not found "})
+                    return {err: " User not found "}
                 }
             } catch (error) {
-                return FormateData({error: error})
+                return {error: error}
             }
+
+}
+
+export const userFind = async (id : any) => {
+    try {
+        const user = await findUserById({id})
+        return user
+    } catch (error) {
+        
+    }
 }

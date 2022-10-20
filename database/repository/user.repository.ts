@@ -3,13 +3,12 @@ import userModel from '../models/user.model'
 import {IUser} from '../types/user.type'
 
 
-export const     createUser  = async ({name,email,password,salt} : DocumentDefinition<IUser> ) =>{
+export const     createUser  = async ({name,email,password} : DocumentDefinition<IUser> ) =>{
         try {
             const user = new userModel({
                 name,
                 email,
-                password,
-                salt
+                password
             })
             
             const userResult = await user.save()
@@ -33,14 +32,15 @@ export const     createUser  = async ({name,email,password,salt} : DocumentDefin
 
 export const  findUserById = async ({id} : DocumentDefinition<IUser>) =>{
         try {
-            const existingUser = await userModel.findById(id)
-            .populate('name')
-            .populate('email')
+            const existingUser = await userModel.findById(id).select('-password')
+
 
             return existingUser
 
         } catch (error) {
-            
+            return {
+                error: "error"
+            }
         }
     }
 

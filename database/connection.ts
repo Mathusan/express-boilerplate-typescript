@@ -1,8 +1,7 @@
 import mongoose, { ConnectOptions } from 'mongoose'
 
-const mongodbUrl = process.env.MONGO_URI || "mongodb://localhost:27017/usersdb";
 
-export default ()=>{
+export default (mongodbUrl : any)=>{
     mongoose.connect(mongodbUrl, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
