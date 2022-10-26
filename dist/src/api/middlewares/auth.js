@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.auth = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userService_1 = require("../../services/userService");
-const tokensecret = "secretapp";
+const config_1 = __importDefault(require("../../../config"));
 const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     const token = (_a = req.header('Authorization')) === null || _a === void 0 ? void 0 : _a.replace('Bearer ', '');
@@ -25,7 +25,7 @@ const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     try {
-        const user = yield jsonwebtoken_1.default.verify(token, tokensecret);
+        const user = yield jsonwebtoken_1.default.verify(token, `${config_1.default.refreshTokenKey}`);
         req.user = yield (0, userService_1.userFind)(user._id);
         next();
     }

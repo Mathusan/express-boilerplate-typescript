@@ -9,7 +9,7 @@ const auth_1 = require("../middlewares/auth");
 const userRouter = express_1.default.Router();
 userRouter.post('/register', userController_1.registerUser);
 userRouter.post('/login', userController_1.loginUser);
-// userRouter.post('/token',auth,protectedRoute)
+// userRouter.post('/refreshtoken',auth,protectedRoute)
 //add test protected route 
 userRouter.get('/private', auth_1.auth, userController_1.protectedRoute);
 exports.default = userRouter;

@@ -1,6 +1,6 @@
 import express, {Router} from 'express'
 
-import {registerUser,loginUser, protectedRoute} from '../controllers/userController'
+import {registerUser,loginUser, protectedRoute,refreshToken} from '../controllers/userController'
 import {auth} from '../middlewares/auth'
 
 
@@ -10,7 +10,7 @@ const userRouter : Router = express.Router()
 userRouter.post('/register',registerUser)
 userRouter.post('/login',loginUser)
 
-// userRouter.post('/token',auth,protectedRoute)
+userRouter.post('/refreshtoken',auth,refreshToken)
 
 
 //add test protected route 

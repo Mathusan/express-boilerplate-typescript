@@ -1,4 +1,4 @@
-import dotenv from 'dotenv';
+
 import express , { Express ,Request , Response } from 'express';
 import cors from 'cors';
 
@@ -8,14 +8,11 @@ import connection from './database/connection';
 
 import  userRouter from './src/api/routes/userRoutes'
 
-
-if(process.env.NODE_ENV !== 'production'){
-    dotenv.config()
-}
+import config from './config'
 
 const app : Express = express()
 
-connection(process.env.DATABASE_URL)
+connection()
 
 app.use(cors())
 app.use(express.json())
@@ -29,7 +26,7 @@ app.get('/' ,(req : Request,res : Response) =>{
 app.use('/user', userRouter)
 
 
-app.listen(process.env.PORT, ()=>{
-    console.log("Server Running ")
+app.listen(config.port, ()=>{
+    console.log(`Server running at ${config.port}`)
 })
 

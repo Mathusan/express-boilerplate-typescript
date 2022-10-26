@@ -1,14 +1,15 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { Request } from 'express';
-
+import config from '../../config';
  
 
-const salt = 10
+
+const salt = config.salt
 
 
 export const generatePassword = async (password : any) => {
-        return await bcrypt.hash(password, salt);
+        return await bcrypt.hash(password, `${salt}` );
 };
 
 
@@ -17,7 +18,7 @@ export const validatePassword = async (enteredPassword : any, savedPassword : an
 };
 
 export const generateToken = async (payload : any) => {
-        return await jwt.sign(payload, "secretapp", { expiresIn: '10m'} )
+        return await jwt.sign(payload,`${config.accessTokenKey}` , { expiresIn: '10m'} )
 }
 
 export const generateRefreshToken = async (payload : any) =>{

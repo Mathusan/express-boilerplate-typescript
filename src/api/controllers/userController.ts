@@ -29,6 +29,9 @@ export const loginUser = async (req : Request,res : Response,next : NextFunction
         }
     }
 
+export const refreshToken = async (req : Request, res : Response ) =>{
+    
+}    
 
 export const protectedRoute = async (req : Request,res : Response) => {
     try {

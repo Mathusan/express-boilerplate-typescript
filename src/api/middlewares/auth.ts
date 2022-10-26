@@ -2,7 +2,8 @@ import jwt, {JwtPayload} from 'jsonwebtoken'
 import { Request , Response , NextFunction } from 'express'
 import {userFind} from '../../services/userService'
 
-const tokensecret = "secretapp"
+import config from '../../../config'
+
 
 export interface CustomRequest extends Request {
     user: any | JwtPayload;
@@ -19,7 +20,7 @@ export const auth = async (req : Request , res : Response , next : NextFunction)
     }
 
     try {
-        const user = await <any>jwt.verify(token , tokensecret);
+        const user = await <any>jwt.verify(token , `${config.refreshTokenKey}`);
 
         (req as CustomRequest).user  =  await userFind(user._id);
 

@@ -15,9 +15,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateRefreshToken = exports.generateToken = exports.validatePassword = exports.generatePassword = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
-const salt = 10;
+const config_1 = __importDefault(require("../../config"));
+const salt = config_1.default.salt;
 const generatePassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield bcrypt_1.default.hash(password, salt);
+    return yield bcrypt_1.default.hash(password, `${salt}`);
 });
 exports.generatePassword = generatePassword;
 const validatePassword = (enteredPassword, savedPassword) => __awaiter(void 0, void 0, void 0, function* () {
@@ -25,7 +26,7 @@ const validatePassword = (enteredPassword, savedPassword) => __awaiter(void 0, v
 });
 exports.validatePassword = validatePassword;
 const generateToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield jsonwebtoken_1.default.sign(payload, "secretapp", { expiresIn: '10m' });
+    return yield jsonwebtoken_1.default.sign(payload, `${config_1.default.accessTokenKey}`, { expiresIn: '10m' });
 });
 exports.generateToken = generateToken;
 const generateRefreshToken = (payload) => __awaiter(void 0, void 0, void 0, function* () {
