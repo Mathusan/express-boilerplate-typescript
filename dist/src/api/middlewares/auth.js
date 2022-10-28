@@ -25,7 +25,7 @@ const auth = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () 
         });
     }
     try {
-        const user = yield jsonwebtoken_1.default.verify(token, `${config_1.default.refreshTokenKey}`);
+        const user = yield jsonwebtoken_1.default.verify(token, `${config_1.default.accessTokenKey}`);
         req.user = yield (0, userService_1.userFind)(user._id);
         next();
     }

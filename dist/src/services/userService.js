@@ -18,6 +18,7 @@ const signUp = (userInputs) => __awaiter(void 0, void 0, void 0, function* () {
         const checkExistingUser = yield findUser({ email });
         if (!checkExistingUser) {
             let hashedPassword = yield generatePassword(password);
+            //console.log("1zz")
             const newUser = yield createUser({ name, email, password: hashedPassword });
             const token = yield generateToken({ email: newUser.email, _id: newUser._id });
             return { id: newUser._id, token };

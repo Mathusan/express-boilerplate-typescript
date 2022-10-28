@@ -15,7 +15,9 @@ export const registerUser = async (req :Request,res : Response,next : NextFuncti
             const data = await signUp({name,email,password})
             return res.json(data)
         } catch (error) {
-            next(error)
+            res.status(500).json({
+                error: error
+            })
         }
     }
 
@@ -25,7 +27,9 @@ export const loginUser = async (req : Request,res : Response,next : NextFunction
             const data = await logIn({email,password})
             return res.json(data)
         } catch (error) {
-            next(error)
+            res.status(500).json({
+                error: error
+            })
         }
     }
 

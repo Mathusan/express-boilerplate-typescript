@@ -16,9 +16,8 @@ exports.generateRefreshToken = exports.generateToken = exports.validatePassword 
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
-const salt = config_1.default.salt;
 const generatePassword = (password) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield bcrypt_1.default.hash(password, `${salt}`);
+    return yield bcrypt_1.default.hash(password, Number(config_1.default.salt));
 });
 exports.generatePassword = generatePassword;
 const validatePassword = (enteredPassword, savedPassword) => __awaiter(void 0, void 0, void 0, function* () {

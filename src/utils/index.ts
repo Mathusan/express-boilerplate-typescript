@@ -5,11 +5,8 @@ import config from '../../config';
  
 
 
-const salt = config.salt
-
-
 export const generatePassword = async (password : any) => {
-        return await bcrypt.hash(password, `${salt}` );
+        return await bcrypt.hash(password, Number(config.salt));
 };
 
 

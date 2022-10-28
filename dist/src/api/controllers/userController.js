@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.protectedRoute = exports.loginUser = exports.registerUser = void 0;
+exports.protectedRoute = exports.refreshToken = exports.loginUser = exports.registerUser = void 0;
 const { signUp, logIn, userFind } = require('../../services/userService');
 const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -18,7 +18,9 @@ const registerUser = (req, res, next) => __awaiter(void 0, void 0, void 0, funct
         return res.json(data);
     }
     catch (error) {
-        next(error);
+        res.status(500).json({
+            error: error
+        });
     }
 });
 exports.registerUser = registerUser;
@@ -29,10 +31,15 @@ const loginUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function
         return res.json(data);
     }
     catch (error) {
-        next(error);
+        res.status(500).json({
+            error: error
+        });
     }
 });
 exports.loginUser = loginUser;
+const refreshToken = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+});
+exports.refreshToken = refreshToken;
 const protectedRoute = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         res.status(200).json({
