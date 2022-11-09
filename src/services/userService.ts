@@ -1,6 +1,5 @@
-const {findUser,createUser, findUserById}= require('../../database/repository/user.repository')
-const { FormateData, generatePassword, generateToken, validatePassword } = require('../utils/index');
-
+import  {findUser,createUser, findUserById} from '../../database/repository/user.repository'
+import { generatePassword, generateToken, validatePassword } from '../utils/index'
 export const signUp = async (userInputs: any) => {
     const { name,email, password} = userInputs
 
@@ -14,7 +13,7 @@ export const signUp = async (userInputs: any) => {
             
             let hashedPassword = await generatePassword(password)
             //console.log("1zz")
-            const newUser = await createUser({name,email,password:hashedPassword})
+            const newUser : any = await createUser({name,email,password:hashedPassword})
             
             const token = await generateToken({email: newUser.email, _id: newUser._id})
 
@@ -22,11 +21,11 @@ export const signUp = async (userInputs: any) => {
 
         } else {
 
-            return {err : "Email already registered"}
+            return {error : "Email already registered"}
         }
         
     } catch (error) {
-        return {error : error}
+        return {error}
     }
 }
 
@@ -44,16 +43,16 @@ export const logIn = async (userInputs : any) =>{
                     const token = await generateToken({email : existingUser.email, _id:existingUser._id})   
                     return {id: existingUser._id,  token}
             }else {
-                return {err: "Incorrect Password"}
+                return {error: "Incorrect Password"}
             }
 
 
 
         }else {
-            return {err: " User not found "}
+            return {error: " User not found "}
         }
     } catch (error) {
-        return {error: error}
+        return {error}
     }
 
 }
@@ -63,6 +62,6 @@ export const userFind = async (id : any) => {
         const user = await findUserById({id})
         return user
     } catch (error) {
-        
+        return({error})
     }
 }

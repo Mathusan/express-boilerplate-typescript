@@ -10,57 +10,58 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userFind = exports.logIn = exports.signUp = void 0;
-const { findUser, createUser, findUserById } = require('../../database/repository/user.repository');
-const { FormateData, generatePassword, generateToken, validatePassword } = require('../utils/index');
+const user_repository_1 = require("../../database/repository/user.repository");
+const index_1 = require("../utils/index");
 const signUp = (userInputs) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, email, password } = userInputs;
     try {
-        const checkExistingUser = yield findUser({ email });
+        const checkExistingUser = yield (0, user_repository_1.findUser)({ email });
         if (!checkExistingUser) {
-            let hashedPassword = yield generatePassword(password);
+            let hashedPassword = yield (0, index_1.generatePassword)(password);
             //console.log("1zz")
-            const newUser = yield createUser({ name, email, password: hashedPassword });
-            const token = yield generateToken({ email: newUser.email, _id: newUser._id });
+            const newUser = yield (0, user_repository_1.createUser)({ name, email, password: hashedPassword });
+            const token = yield (0, index_1.generateToken)({ email: newUser.email, _id: newUser._id });
             return { id: newUser._id, token };
         }
         else {
-            return { err: "Email already registered" };
+            return { error: "Email already registered" };
         }
     }
     catch (error) {
-        return { error: error };
+        return { error };
     }
 });
 exports.signUp = signUp;
 const logIn = (userInputs) => __awaiter(void 0, void 0, void 0, function* () {
     const { email, password } = userInputs;
     try {
-        const existingUser = yield findUser({ email });
+        const existingUser = yield (0, user_repository_1.findUser)({ email });
         if (existingUser) {
-            const validatedPassword = yield validatePassword(password, existingUser.password);
+            const validatedPassword = yield (0, index_1.validatePassword)(password, existingUser.password);
             if (validatedPassword) {
-                const token = yield generateToken({ email: existingUser.email, _id: existingUser._id });
+                const token = yield (0, index_1.generateToken)({ email: existingUser.email, _id: existingUser._id });
                 return { id: existingUser._id, token };
             }
             else {
-                return { err: "Incorrect Password" };
+                return { error: "Incorrect Password" };
             }
         }
         else {
-            return { err: " User not found " };
+            return { error: " User not found " };
         }
     }
     catch (error) {
-        return { error: error };
+        return { error };
     }
 });
 exports.logIn = logIn;
 const userFind = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const user = yield findUserById({ id });
+        const user = yield (0, user_repository_1.findUserById)({ id });
         return user;
     }
     catch (error) {
+        return ({ error });
     }
 });
 exports.userFind = userFind;

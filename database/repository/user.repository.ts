@@ -3,7 +3,7 @@ import userModel from '../models/user.model'
 import {IUser} from '../types/user.type'
 
 
-export const     createUser  = async ({name,email,password} : DocumentDefinition<IUser> ) =>{
+export const     createUser  = async ({name,email,password} : any ) =>{
         try {
             const user = new userModel({
                 name,
@@ -21,7 +21,7 @@ export const     createUser  = async ({name,email,password} : DocumentDefinition
         }
     }
 
- export const  findUser =async ({email} : DocumentDefinition<IUser>)=>{
+ export const  findUser =async ({email} : any)=>{
         try {
             const existingUser = await userModel.findOne({email : email})
             return existingUser
@@ -30,7 +30,7 @@ export const     createUser  = async ({name,email,password} : DocumentDefinition
         }
     }
 
-export const  findUserById = async ({id} : DocumentDefinition<IUser>) =>{
+export const  findUserById = async ({id} : any) =>{
         try {
             const existingUser = await userModel.findById(id).select('-password')
 
